@@ -1,27 +1,31 @@
-// 📦 Importamos ReactNode para tipar children
-import { ReactNode } from 'react';
-import styles from './Text.module.css';
+import { ReactNode, HTMLAttributes } from "react";
+import styles from "./Text.module.css";
 
-// Definimos los tipos que recibira nuestro componente
+// Extendemos con HTMLAttributes para permitir props HTML nativas
 type TextProps = {
-  children: ReactNode;                              // Lo que va dentro del componente
-  variant?: 'default' | 'error' | 'success';       // Estilos: default | error | success
-  as?: 'p' | 'span' | 'small';                     // Etiqueta HTML a usar
-}
+  children: ReactNode;
+  variant?: "default" | "error" | "success";
+  as?: "p" | "span" | "small";
+} & HTMLAttributes<HTMLElement>; // Ahora acepta id, className, onClick, etc.
 
-// El componente
-export const Text = ({ 
-  children, 
-  variant = 'default',  // Valor por defecto si no se pasa
-  as = 'p'              // Por defecto será un <p>
+export const Text = ({
+  children,
+  variant = "default",
+  as = "p",
+  className = "", // Extraemos className para combinarlo
+  ...props // Resto de props HTML (id, style, onClick, etc.)
 }: TextProps) => {
-  
-  // Elegimos qué etiqueta HTML renderizar
-  const Tag = as; // 'p' | 'span' | 'small'
-  
-  // Construimos la clase CSS según la variante
-  const className = `${styles.text} ${styles[variant]}`;
-  
-  // Renderizamos
-  return <Tag className={className}>{children}</Tag>;
-}
+  const Tag = as;
+
+  // Combinamos estilos del módulo + className externa
+  const textClassName = `${styles.text} ${styles[variant]} ${className}`.trim();
+
+  return (
+    <Tag
+      className={textClassName}
+      {...props} // Pasamos todas las props HTML (incluye id)
+    >
+      {children}
+    </Tag>
+  );
+};
