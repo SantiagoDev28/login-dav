@@ -1,0 +1,15 @@
+/* Contenedor del formulario */
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;              /* 24px entre elementos */
+  width: 100%;
+  max-width: 400px;         /* Ancho máximo del formulario */
+}
+
+/* Responsivo - Mobile */
+@media (max-width: 640px) {
+  .loginForm {
+    gap: 1.25rem;           /* Un poco menos de espacio en mobile */
+  }
+}
