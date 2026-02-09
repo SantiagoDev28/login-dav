@@ -1,0 +1,59 @@
+/* Layout completo de la página */
+.authTemplate {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0A3A40 0%, #1D7373 100%);
+  padding: 1rem;
+}
+
+/* Contenedor del formulario */
+.container {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  border-radius: 0.75rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+              0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+}
+
+/* Header con título */
+.header {
+  padding: 2rem 2rem 1rem;
+  text-align: center;
+  background: linear-gradient(to bottom, #f9fafb, #ffffff);
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #0A3A40;
+}
+
+/* Contenido (formulario) */
+.content {
+  padding: 2rem;
+}
+
+/* Responsivo */
+@media (max-width: 640px) {
+  .container {
+    max-width: 100%;
+  }
+  
+  .header {
+    padding: 1.5rem 1.5rem 1rem;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+  }
+  
+  .content {
+    padding: 1.5rem;
+  }
+}
