@@ -1,4 +1,4 @@
-import { InputHTMLAttributes } from "react";
+import type { InputHTMLAttributes } from "react";
 import { Label } from "../../atoms/Label";
 import { Input } from "../../atoms/Input";
 import { Text } from "../../atoms/Text";
