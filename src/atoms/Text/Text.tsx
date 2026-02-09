@@ -1,4 +1,4 @@
-import { ReactNode, HTMLAttributes } from "react";
+import type { ReactNode, HTMLAttributes } from "react";
 import styles from "./Text.module.css";
 
 // Extendemos con HTMLAttributes para permitir props HTML nativas

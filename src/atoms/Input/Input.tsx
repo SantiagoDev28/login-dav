@@ -1,4 +1,4 @@
-import { InputHTMLAttributes } from 'react';
+import type { InputHTMLAttributes } from 'react';
 import styles from './Input.module.css';
 
 // Extendemos las props nativas del input HTML
