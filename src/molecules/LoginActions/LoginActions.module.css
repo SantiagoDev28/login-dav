@@ -1,0 +1,20 @@
+/* Contenedor de las acciones */
+.loginActions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;              /* 16px entre error y botón */
+  width: 100%;
+}
+
+/* Botón de submit */
+.submitButton {
+  width: 100%;            /* Botón ancho completo */
+  padding: 0.875rem;      /* Un poco más de padding para destacar */
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* Estado loading - Cursor de espera */
+.submitButton:disabled {
+  cursor: wait;           /* Cursor de "loading" cuando está disabled */
+}
