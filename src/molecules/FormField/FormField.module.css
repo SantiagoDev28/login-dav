@@ -1,0 +1,12 @@
+/* Contenedor del FormField */
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;              /* 8px de espacio entre Label, Input, Error */
+  width: 100%;
+}
+
+/* 📏 Espaciado entre FormFields cuando están apilados */
+.formField + .formField {
+  margin-top: 1rem;         /* 16px entre campos */
+}
