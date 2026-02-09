@@ -1,0 +1,45 @@
+/* Estilo base del input */
+.input {
+  width: 100%;
+  padding: 0.75rem;              /* 12px */
+  font-size: 1rem;               /* 16px - evita zoom en iOS */
+  font-family: inherit;
+  color: #0A3A40;
+  
+  /* Borde y fondo */
+  background-color: #ffffff;
+  border: 2px solid #0F5959;     /* Borde con tu paleta */
+  border-radius: 0.375rem;       /* 6px */
+  
+  /* Transiciones suaves */
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  
+  /* Reseteo de estilos por defecto */
+  outline: none;
+  box-sizing: border-box;
+}
+
+/* Estado: Focus */
+.input:focus {
+  border-color: #1D7373;         /* Más saturado al hacer focus */
+  box-shadow: 0 0 0 3px rgba(29, 115, 115, 0.1);  /* Glow sutil */
+}
+
+/* Estado: Hover */
+.input:hover:not(:focus):not(:disabled) {
+  border-color: #1D7373;
+}
+
+/* Estado: Disabled */
+.input:disabled {
+  background-color: #f3f4f6;     /* Gris claro */
+  border-color: #d1d5db;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* Placeholder */
+.input::placeholder {
+  color: #6b7280;                /* Gris medio */
+  opacity: 1;
+}

@@ -1,0 +1,14 @@
+/* Estilo del label */
+.label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;      /* 14px */
+  font-weight: 500;          /* Semi-bold */
+  color: #0A3A40;            /* Tu color más oscuro */
+  cursor: pointer;           /* Mano al pasar el mouse */
+}
+
+/* Efecto hover sutil */
+.label:hover {
+  color: #0F5959;            /* Un poco más claro */
+}

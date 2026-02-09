@@ -1,0 +1,22 @@
+/*Estilo base para todos los Text */
+.text {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+}
+
+/*Variante por defecto */
+.default {
+  color: #0A3A40; /* Tu color más oscuro */
+}
+
+/*Variante de error */
+.error {
+  color: #EF4444; /* Rojo estándar para errores */
+}
+
+/*Variante de éxito */
+.success {
+  color: #10B981; /* Verde estándar para éxito */
+}
