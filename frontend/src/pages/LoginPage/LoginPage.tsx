@@ -1,20 +1,21 @@
 import { AuthTemplate } from '../../templates/AuthTemplate';
 import { LoginForm } from '../../organisms/Login/LoginForm';
 import type { LoginFormData } from '../../organisms/Login/LoginForm';
-import { useLogin } from '../../hooks/useLogin';
+import { useLogin } from '../../application/use-cases/auth/login';
+import { AuthHttpRepository } from '../../infrastructure/repositories';
 import styles from './LoginPage.module.css';
 
+// 🔌 Crear instancia del repositorio
+const authRepository = new AuthHttpRepository();
+
 export const LoginPage = () => {
+  // Hook con inyección de dependencia
+  const { login, isLoading, error, isAuthenticated } = useLogin(authRepository);
   
-  // Hook que maneja toda la lógica de login
-  const { login, isLoading, error, isAuthenticated } = useLogin();
-  
-  // Handler que se pasa al formulario
   const handleSubmit = async (data: LoginFormData) => {
     await login(data);
   };
   
-  // Si está autenticado, mostrar mensaje de éxito
   if (isAuthenticated) {
     return (
       <AuthTemplate>
@@ -27,7 +28,6 @@ export const LoginPage = () => {
     );
   }
   
-  // Mostrar formulario de login
   return (
     <AuthTemplate title="Iniciar Sesión">
       <LoginForm 
@@ -36,7 +36,6 @@ export const LoginPage = () => {
         errorMessage={error || undefined}
       />
       
-      {/* Ayuda para testing */}
       <div className={styles.testCredentials}>
         <p><strong>Credenciales de prueba:</strong></p>
         <p>Email: <code>admin@example.com</code></p>
