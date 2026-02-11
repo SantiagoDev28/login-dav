@@ -1,0 +1,117 @@
+    {
+        "openapi": "3.0.3",
+        "info": {
+            "title": "Auth API",
+            "description": "Authentication API using Hexagonal Architecture with NestJS",
+            "version": "1.0.0"
+        },
+        "paths": {
+            "/auth/login": {
+                "post": {
+                    "tags": [
+                        "Authentication"
+                    ],
+                    "summary": "Authenticate user",
+                    "description": "Authenticate user with email and password",
+                    "requestBody": {
+                        "required": true,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginRequest"
+                                },
+                                "example": {
+                                    "email": "admin@example.com",
+                                    "password": "123456"
+                                }
+                            }
+                        }
+                    },
+                    "responses": {
+                        "200": {
+                            "description": "Successful authentication",
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "$ref": "#/components/schemas/LoginSuccessResponse"
+                                    }
+                                }
+                            }
+                        },
+                        "401": {
+                            "description": "Invalid credentials",
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "$ref": "#/components/schemas/ErrorResponse"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "components": {
+            "schemas": {
+                "LoginRequest": {
+                    "type": "object",
+                    "required": [
+                        "email",
+                        "password"
+                    ],
+                    "properties": {
+                        "email": {
+                            "type": "string",
+                            "format": "email",
+                            "example": "admin@example.com"
+                        },
+                        "password": {
+                            "type": "string",
+                            "example": "123456"
+                        }
+                    }
+                },
+                "LoginSuccessResponse": {
+                    "type": "object",
+                    "properties": {
+                        "accessToken": {
+                            "type": "string",
+                            "example": "mock-token"
+                        },
+                        "user": {
+                            "type": "object",
+                            "properties": {
+                                "email": {
+                                    "type": "string",
+                                    "example": "admin@example.com"
+                                },
+                                "name": {
+                                    "type": "string",
+                                    "example": "Administrator"
+                                }
+                            }
+                        }
+                    }
+                },
+                "ErrorResponse": {
+                    "type": "object",
+                    "properties": {
+                        "statusCode": {
+                            "type": "number",
+                            "example": 401
+                        },
+                        "message": {
+                            "type": "string",
+                            "example": "Invalid credentials"
+                        },
+                        "timestamp": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2026-02-10T10:00:00.000Z"
+                        }
+                    }
+                }
+            }
+        }
+    }
