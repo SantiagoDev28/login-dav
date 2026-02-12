@@ -5,7 +5,7 @@ import { User } from '../../domain/entities';
 
 @Injectable()
 export class UserMockRepository implements IUserRepository {
-  // 🔒 Base de datos en memoria (mock)
+  // Base de datos en memoria (mock)
   private users: User[] = [];
 
   constructor() {
