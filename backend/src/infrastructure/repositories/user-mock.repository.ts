@@ -1,7 +1,9 @@
+import { UserStatus } from './../../domain/value-objects/user-status.value';
 import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { IUserRepository } from '../../domain/repositories';
 import { User } from '../../domain/entities';
+import { Email, Password } from 'src/domain/value-objects';
 
 @Injectable()
 export class UserMockRepository implements IUserRepository {
@@ -19,14 +21,29 @@ export class UserMockRepository implements IUserRepository {
     const hashedPassword3 = await bcrypt.hash('demo123', 10);
 
     this.users = [
-      new User('admin@example.com', 'Administrator', hashedPassword1),
-      new User('user@test.com', 'Test User', hashedPassword2),
-      new User('demo@demo.com', 'Demo User', hashedPassword3),
+      new User(
+        Email.create('admin@example.com'),
+        'Administrador',
+        Password.fromHashed(hashedPassword1),
+        UserStatus.active(),
+      ),
+      new User(
+        Email.create('user@test.com'),
+        'Test User',
+        Password.fromHashed(hashedPassword2),
+        UserStatus.active(),
+      ),
+      new User(
+        Email.create('demo@demo.com'),
+        'Demo User',
+        Password.fromHashed(hashedPassword3),
+        UserStatus.active(),
+      ),
     ];
   }
 
-  async findByEmail(email: string): Promise<User | null> {
-    const user = this.users.find((u) => u.email === email);
+  async findByEmail(email: Email): Promise<User | null> {
+    const user = this.users.find((u) => u.email.equals(email));
     return user || null;
   }
 
