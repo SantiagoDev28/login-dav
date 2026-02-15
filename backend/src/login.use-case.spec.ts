@@ -1,78 +1,103 @@
 import { IUserRepository } from './domain/repositories/user.repository';
-import { IPasswordHasher } from './domain/repositories/password-hasher.interface';
-import { UserMockRepository } from './infrastructure/repositories/user-mock.repository';
+import { IPasswordHasher } from './domain/repositories/password-hasher.repository';
 import { LoginUseCase } from './application/use-cases/auth/login';
 import { InvalidCredentialsException } from './domain/exceptions';
-import { access } from 'fs';
+import { IAuthRepository } from './domain/repositories';
+import { User } from './domain/entities/user.entity';
+import { Password, UserStatus, Email } from './domain/value-objects';
 
 describe('LoginUseCase', () => {
-    let userRepository: IUserRepository;
-    let passwordHasher: IPasswordHasher;
-    let loginUseCase: LoginUseCase;
+  let userRepository: IUserRepository;
+  let passwordHasher: IPasswordHasher;
+  let authRepository: IAuthRepository;
+  let loginUseCase: LoginUseCase;
 
-    beforeEach(() => {
-        // Crear mocks
-        userRepository = {
-            findByEmail: jest.fn(),
-            create: jest.fn(),
-            findAll: jest.fn(),
-        } as jest.Mocked<IUserRepository>;
+  beforeEach(() => {
+    // Crear mocks
+    userRepository = {
+      findByEmail: jest.fn(),
+      create: jest.fn(),
+      findAll: jest.fn(),
+    } as jest.Mocked<IUserRepository>;
 
-        passwordHasher = {
-            hash: jest.fn(),
-            compare: jest.fn(),
-            generateToken: jest.fn(),
-        } as jest.Mocked<IPasswordHasher>;
+    passwordHasher = {
+      hash: jest.fn(),
+      compare: jest.fn(),
+    } as jest.Mocked<IPasswordHasher>;
 
-        // Instanciar servicio con mocks
-        loginUseCase = new LoginUseCase(userRepository, passwordHasher);
+    authRepository = {
+      generateToken: jest.fn(),
+    } as jest.Mocked<IAuthRepository>;
 
-    })
+    // Instanciar servicio con mocks
+    loginUseCase = new LoginUseCase(
+      userRepository,
+      passwordHasher,
+      authRepository,
+    );
+  });
 
-    describe('login', () => {
-        it('Should return a token when user is authenticated', async () => {
-            const mockUser = {
-                email: 'test@example.com',
-                name: 'Test User',
-                password: 'hashedPassword',
-            };
+  const mockUser = new User(
+    Email.create('test@example.com'),
+    'Test User',
+    Password.fromHashed('test123'),
+    UserStatus.active(),
+  );
 
-            (userRepository.findByEmail as jest.Mock).mockResolvedValue(mockUser);
-            (passwordHasher.compare as jest.Mock).mockResolvedValue(true);
-            (passwordHasher.generateToken as jest.Mock).mockResolvedValue('mock-token');
+  const loginDto = {
+        email: 'test@example.com',
+        password: 'test123',
+      };
 
-            const result = await loginUseCase.execute(mockUser);
+  describe('login', () => {
+    it('Should return a token when user is authenticated', async () => {
 
-            expect(result).toEqual({
-                accessToken: 'mock-token',
-                user: {
-                    email: mockUser.email,
-                    name: "Test User",
-                },
-            });
-            expect(userRepository.findByEmail).toHaveBeenCalledWith(mockUser.email);
-            expect(passwordHasher.compare).toHaveBeenCalledWith(mockUser.password, mockUser.password);
-            expect(passwordHasher.generateToken).toHaveBeenCalledWith('mock-token');
-        });
 
-        it('Should throw an error when user is not found', async () => {
-            (userRepository.findByEmail as jest.Mock).mockResolvedValue(null);
-            await expect(loginUseCase.execute({ email: 'nonexistent@example.com', password: 'password' })).rejects.toThrow(InvalidCredentialsException);
+      (userRepository.findByEmail as jest.Mock).mockResolvedValue(mockUser);
+      (passwordHasher.compare as jest.Mock).mockResolvedValue(true);
+      (authRepository.generateToken as jest.Mock).mockResolvedValue(
+        'mock-token',
+      );
 
-            expect(passwordHasher.compare).not.toHaveBeenCalled();
-            expect(passwordHasher.generateToken).not.toHaveBeenCalled();
-        });
+      const result = await loginUseCase.execute(loginDto);
 
-        it('Should throw an error when password is incorrect', async () => {
-            const mockUser = {
-                email: 'test@example.com',
-                password: 'hashedPassword',
-            };
-            (userRepository.findByEmail as jest.Mock).mockResolvedValue(mockUser);
-            (passwordHasher.compare as jest.Mock).mockResolvedValue(false);
-            await expect(loginUseCase.execute(mockUser)).rejects.toThrow(InvalidCredentialsException);
-
-            expect(passwordHasher.generateToken).not.toHaveBeenCalled();
+      expect(result).toEqual({
+        accessToken: 'mock-token',
+        user: {
+          email: mockUser.email.getValue(),
+          name: 'Test User',
+        },
+      });
+      expect(userRepository.findByEmail).toHaveBeenCalledWith(mockUser.email);
+      expect(passwordHasher.compare).toHaveBeenCalledWith(
+        mockUser.password.getValue(),
+        mockUser.password.getValue(),
+      );
+      expect(authRepository.generateToken).toHaveBeenCalledWith('mock-token');
     });
+
+    it('Should throw an error when user is not found', async () => {
+      (userRepository.findByEmail as jest.Mock).mockResolvedValue(null);
+      await expect(
+        loginUseCase.execute({
+          email: 'nonexistent@example.com',
+          password: 'password',
+        }),
+      ).rejects.toThrow(InvalidCredentialsException);
+
+      expect(passwordHasher.compare).not.toHaveBeenCalled();
+      expect(authRepository.generateToken).not.toHaveBeenCalled();
     });
+
+    it('Should throw an error when password is incorrect', async () => {
+      
+      (userRepository.findByEmail as jest.Mock).mockResolvedValue(mockUser);
+      (passwordHasher.compare as jest.Mock).mockResolvedValue(false);
+      await expect(loginUseCase.execute(loginDto)).rejects.toThrow(
+        InvalidCredentialsException,
+      );
+
+      expect(authRepository.generateToken).not.toHaveBeenCalled();
+    });
+  });
 });
