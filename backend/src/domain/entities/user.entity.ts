@@ -1,18 +1,17 @@
+import { Email, Password, UserStatus } from "../value-objects";
+
+
+// Entidad de usuario que se crea a partir de Value-Objects con sus respectivas validaciones.
 export class User {
   constructor(
-    public readonly email: string,
+    public readonly email: Email,
     public readonly name: string,
-    public readonly password: string,
+    public readonly password: Password,
+    public readonly status: UserStatus,
   ) {}
 
-  // Método de dominio: validar si el email tiene formato correcto
-  isEmailValid(): boolean {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(this.email);
-  }
 
-  // Método de dominio: validar longitud de password
-  isPasswordValid(): boolean {
-    return this.password.length >= 6;
+  isActive(): boolean {
+    return this.status.isActive()
   }
 }
