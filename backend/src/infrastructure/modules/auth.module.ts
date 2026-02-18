@@ -3,10 +3,11 @@ import { AuthController } from '../controllers/auth';
 import { LoginUseCase } from '../../application/use-cases/auth/login';
 import { ValidateUserUseCase } from '../../application/use-cases/auth/validate-user';
 import { UserMockRepository } from '../repositories';
-import { USER_REPOSITORY } from 'src/domain/repositories/user-repository.token';
+import { DI_TOKENS } from '../tokens/di.tokens';
 
 @Module({
   controllers: [AuthController],
+  
   providers: [
     // Use Cases
     LoginUseCase,
@@ -14,9 +15,19 @@ import { USER_REPOSITORY } from 'src/domain/repositories/user-repository.token';
     
     // Repositories
     {
-      provide: USER_REPOSITORY,
+      provide: DI_TOKENS.UserRepository,
       useClass: UserMockRepository,
     },
+
+    {
+      provide: DI_TOKENS.PasswordHasher,
+      useClass: UserMockRepository,
+    },
+
+    {
+      provide: DI_TOKENS.AuthRepository,
+      useClass: UserMockRepository,
+    }
   ],
   exports: [LoginUseCase, ValidateUserUseCase],
 })
