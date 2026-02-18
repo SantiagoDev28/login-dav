@@ -1,22 +1,20 @@
 import { Email } from './../../../../domain/value-objects/email.value';
 import { Injectable, Inject } from '@nestjs/common';
 import type { IAuthRepository, IUserRepository } from '../../../../domain/repositories';
-import type { IPasswordHasher } from 'src/domain/repositories/password-hasher.repository';
+import type { IPasswordHasher } from '../../../../domain/repositories/password-hasher.repository';
 import { InvalidCredentialsException } from '../../../../domain/exceptions';
 import { AuthResponse } from '../../../../domain/types';
 import { LoginDto } from '../../../dto/auth';
-import { USER_REPOSITORY } from '../../../../domain/repositories/user-repository.token';
-import { PASSWORD_HASHER_TOKEN } from '../../../../domain/repositories/password-hasher.token';
-import { AUTH_REPOSITORY_TOKEN } from '../../../../domain/repositories/auth-repository.token';
+import { DI_TOKENS } from '../../../../infrastructure/tokens/di.tokens';
 
 @Injectable()
 export class LoginUseCase {
   constructor(
-    @Inject(USER_REPOSITORY)
+    @Inject(DI_TOKENS.UserRepository)
     private readonly userRepository: IUserRepository,
-    @Inject(PASSWORD_HASHER_TOKEN)
+    @Inject(DI_TOKENS.PasswordHasher)
     private readonly passwordHasher: IPasswordHasher,
-    @Inject(AUTH_REPOSITORY_TOKEN)
+    @Inject(DI_TOKENS.AuthRepository)
     private readonly authRepository: IAuthRepository
   ) {}
 
