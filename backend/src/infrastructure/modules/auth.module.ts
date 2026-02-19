@@ -1,35 +1,44 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { JwtModule } from '@nestjs/jwt';  // ← agregar
+import { ConfigModule, ConfigService } from '@nestjs/config';  // ← agregar
 import { AuthController } from '../controllers/auth';
 import { LoginUseCase } from '../../application/use-cases/auth/login';
 import { ValidateUserUseCase } from '../../application/use-cases/auth/validate-user';
-import { UserMockRepository } from '../repositories';
 import { DI_TOKENS } from '../tokens/di.tokens';
-import { PrismaService } from '../database/primsa.service';
+import { UserTypeOrmRepository } from '../repositories';
+import { UserEntity } from '../database/typeorm/user.entity';
+import { BcryptPasswordHasher } from '../security/bcrypt-password-hasher';
+import { JwtTokenService } from '../security/jwt-token.service';
 
 @Module({
+  imports: [
+    TypeOrmModule.forFeature([UserEntity]),
+    JwtModule.registerAsync({          // ← agregar este bloque
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        secret: config.get<string>('JWT_SECRET'),
+        signOptions: { expiresIn: '1d' },
+      }),
+    }),
+  ],
   controllers: [AuthController],
-  
   providers: [
-    // Use Cases
-    PrismaService,
     LoginUseCase,
     ValidateUserUseCase,
-    
-    // Repositories
     {
       provide: DI_TOKENS.UserRepository,
-      useClass: UserMockRepository,
+      useClass: UserTypeOrmRepository,
     },
-
     {
       provide: DI_TOKENS.PasswordHasher,
-      useClass: UserMockRepository,
+      useClass: BcryptPasswordHasher,
     },
-
     {
-      provide: DI_TOKENS.AuthRepository,
-      useClass: UserMockRepository,
-    }
+      provide: DI_TOKENS.TokenService,
+      useClass: JwtTokenService,
+    },
   ],
   exports: [LoginUseCase, ValidateUserUseCase],
 })

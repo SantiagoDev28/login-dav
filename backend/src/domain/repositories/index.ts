@@ -1,3 +1,3 @@
 export * from './user.repository';
-export * from './auth.repositoy';
+export * from './token-service.port';
 export * from './password-hasher.repository'
