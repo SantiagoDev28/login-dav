@@ -7,6 +7,8 @@ type LoginActionsProps = {
   isLoading: boolean;           // Obligatorio - Estado de carga
   onSubmit: () => void;         // Obligatorio - Callback al hacer submit
   errorMessage?: string;        // Opcional - Mensaje de error general
+  submitLabel?: string;         // Opcional - Texto del botón cuando no está cargando
+  loadingLabel?: string;        // Opcional - Texto del botón cuando está cargando
 }
 
 // El componente
@@ -14,6 +16,7 @@ export const LoginActions = ({
   isLoading, 
   onSubmit,
   errorMessage 
+  , submitLabel = 'Iniciar sesión', loadingLabel = 'Iniciando sesión...'
 }: LoginActionsProps) => {
   
   return (
@@ -32,7 +35,7 @@ export const LoginActions = ({
         disabled={isLoading}       // Deshabilitado durante carga
         className={styles.submitButton}
       >
-        {isLoading ? 'Iniciando sesión...' : 'Iniciar sesión'}
+        {isLoading ? loadingLabel : submitLabel}
       </Button>
     </div>
   );

@@ -1,5 +1,5 @@
 export type AuthResponse = {
-  accessToken: string;
+  accessToken: string | null ;
   user: {
     email: string;
     name: string;

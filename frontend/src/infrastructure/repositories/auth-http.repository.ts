@@ -51,4 +51,46 @@ export class AuthHttpRepository implements IAuthRepository {
   async logout(): Promise<void> {
     await new Promise(resolve => setTimeout(resolve, 500));
   }
+
+  async register(credentials: { name: string; email: string; password: string }): Promise<AuthResponse> {
+    try {
+      const response = await fetch(`${API_URL}/auth/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(credentials),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        const error: AuthError = {
+          message: errorData.message || 'Error al registrarse',
+          code: 'INVALID_CREDENTIALS'
+        };
+        throw error;
+      }
+
+      const data = await response.json();
+      return {
+        success: true,
+        message: 'Registro exitoso',
+        user: {
+          email: data.user.email,
+          name: data.user.name,
+        }
+      };
+
+    } catch (error) {
+      if ((error as AuthError).code) {
+        throw error;
+      }
+
+      const authError: AuthError = {
+        message: 'Error de conexión con el servidor',
+        code: 'SERVER_ERROR'
+      };
+      throw authError;
+    }
+  }
 }

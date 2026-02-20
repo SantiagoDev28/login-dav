@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { JwtModule } from '@nestjs/jwt';  // ← agregar
-import { ConfigModule, ConfigService } from '@nestjs/config';  // ← agregar
+import { JwtModule } from '@nestjs/jwt';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthController } from '../controllers/auth';
 import { LoginUseCase } from '../../application/use-cases/auth/login';
+import { RegisterUseCase } from '../../application/use-cases/auth/register';
 import { ValidateUserUseCase } from '../../application/use-cases/auth/validate-user';
 import { DI_TOKENS } from '../tokens/di.tokens';
 import { UserTypeOrmRepository } from '../repositories';
@@ -14,7 +15,7 @@ import { JwtTokenService } from '../security/jwt-token.service';
 @Module({
   imports: [
     TypeOrmModule.forFeature([UserEntity]),
-    JwtModule.registerAsync({          // ← agregar este bloque
+    JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
@@ -26,6 +27,7 @@ import { JwtTokenService } from '../security/jwt-token.service';
   controllers: [AuthController],
   providers: [
     LoginUseCase,
+    RegisterUseCase,
     ValidateUserUseCase,
     {
       provide: DI_TOKENS.UserRepository,
@@ -40,6 +42,6 @@ import { JwtTokenService } from '../security/jwt-token.service';
       useClass: JwtTokenService,
     },
   ],
-  exports: [LoginUseCase, ValidateUserUseCase],
+  exports: [LoginUseCase, RegisterUseCase, ValidateUserUseCase],
 })
 export class AuthModule {}

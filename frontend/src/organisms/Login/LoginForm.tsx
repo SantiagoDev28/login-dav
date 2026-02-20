@@ -116,6 +116,10 @@ export const LoginForm = ({
         onSubmit={() => {}}
         errorMessage={errorMessage}
       />
+
+      <div className={styles.registerLink}>
+        <p>¿No tienes una cuenta? <a href="#/register">Regístrate</a></p>
+      </div>
     </form>
   );
 }
