@@ -1,7 +1,10 @@
 import { Email } from './../../../../domain/value-objects/email.value';
 import { Injectable, Inject } from '@nestjs/common';
-import type { IAuthRepository, IUserRepository } from '../../../../domain/repositories';
-import type { IPasswordHasher } from '../../../../domain/repositories/password-hasher.repository';
+import type {
+  ITokenService,
+  IUserRepository,
+  IPasswordHasher,
+} from '../../../../domain/repositories';
 import { InvalidCredentialsException } from '../../../../domain/exceptions';
 import { AuthResponse } from '../../../../domain/types';
 import { LoginDto } from '../../../dto/auth';
@@ -14,13 +17,13 @@ export class LoginUseCase {
     private readonly userRepository: IUserRepository,
     @Inject(DI_TOKENS.PasswordHasher)
     private readonly passwordHasher: IPasswordHasher,
-    @Inject(DI_TOKENS.AuthRepository)
-    private readonly authRepository: IAuthRepository
+    @Inject(DI_TOKENS.TokenService)
+    private readonly tokenService: ITokenService,
   ) {}
 
   async execute(loginDto: LoginDto): Promise<AuthResponse> {
     // 1. Buscar usuario por email
-    const emailVO = Email.create(loginDto.email)
+    const emailVO = Email.create(loginDto.email);
     const user = await this.userRepository.findByEmail(emailVO);
 
     // 2. Validar que existe
@@ -39,9 +42,13 @@ export class LoginUseCase {
     }
 
     // 4. Retornar respuesta (sin password)
-    const token = await this.authRepository.generateToken('mock-token'); // Aquí se generaría un JWT real
+    const token = await this.tokenService.generateToken({
+      email: user.email.getValue(),
+      name: user.name,
+    }); 
+    
     return {
-      accessToken: token, // Por ahora mock, luego será JWT real
+      accessToken: token, // JWT
       user: {
         email: user.email.getValue(),
         name: user.name,

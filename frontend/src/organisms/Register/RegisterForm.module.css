@@ -1,0 +1,26 @@
+/* Contenedor del formulario (mismo estilo que LoginForm) */
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Link hacia registro */
+.registerLink {
+  text-align: center;
+  font-size: 0.95rem;
+  color: #374151;
+}
+
+.registerLink a {
+  color: #0A3A40;
+  text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+  .loginForm {
+    gap: 1.25rem;
+  }
+}

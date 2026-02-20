@@ -1,5 +1,6 @@
 export const DI_TOKENS = {
   UserRepository: Symbol('UserRepository'),
-  AuthRepository: Symbol('AuthRepository'),
+  TokenService: Symbol('TokenService'),
   PasswordHasher: Symbol('PasswordHasher'),
+  LLMProvider: Symbol('LLMProvider'),
 } as const;

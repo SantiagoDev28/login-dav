@@ -1,0 +1,24 @@
+{
+  "name": "login-dav",
+  "version": "1.0.0",
+  "description": "**React + TypeScript (Frontend) | NestJS + Hexagonal Architecture (Backend)**",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "client": "npm run dev --prefix frontend",
+    "server": "npm run start:dev --prefix backend",
+    "download": "npm install --prefix frontend && npm install --prefix backend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SantiagoDev28/login-dav.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/SantiagoDev28/login-dav/issues"
+  },
+  "homepage": "https://github.com/SantiagoDev28/login-dav#readme"
+}
