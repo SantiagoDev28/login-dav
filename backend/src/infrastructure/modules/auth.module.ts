@@ -2,13 +2,13 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { AuthController } from '../controllers/auth';
+import { AuthController } from '../driving/http/controllers/auth';
 import { LoginUseCase } from '../../application/use-cases/auth/login';
 import { RegisterUseCase } from '../../application/use-cases/auth/register';
 import { ValidateUserUseCase } from '../../application/use-cases/auth/validate-user';
-import { DI_TOKENS } from '../tokens/di.tokens';
-import { UserTypeOrmRepository } from '../repositories';
-import { UserEntity } from '../database/typeorm/user.entity';
+import { DI_TOKENS } from '../config/di.tokens';
+import { UserTypeOrmRepository } from '../driven/database/typeorm/repositories';
+import { UserEntity } from '../driven/database/typeorm/entities/user.entity';
 import { BcryptPasswordHasher } from '../security/bcrypt-password-hasher';
 import { JwtTokenService } from '../security/jwt-token.service';
 

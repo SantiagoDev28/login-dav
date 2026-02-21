@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { LLMController } from '../controllers/llm';
-import { GroqLLMProvider } from '../repositories/groq-llm.provider';
-import { DI_TOKENS } from '../tokens/di.tokens';
+import { LLMController } from '../driving/http/controllers/llm';
+import { GroqLLMProvider } from '../driven/external-services/groq';
+import { DI_TOKENS } from '../config/di.tokens';
 
 /**
  * LLM Module

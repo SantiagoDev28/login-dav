@@ -1,5 +1,5 @@
 import { ChatGroq } from '@langchain/groq';
-import { LLMProvider } from '../../domain/repositories/llm-provider';
+import { LLMProvider } from '../../../../domain/ports/outbound/services/llm-provider.port';
 
 /**
  * Groq LLM Provider Implementation

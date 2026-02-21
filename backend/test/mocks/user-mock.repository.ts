@@ -1,9 +1,9 @@
-import { UserStatus } from './../../domain/value-objects/user-status.value';
+import { UserStatus } from '../../src/domain/value-objects';
 import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { IUserRepository } from '../../domain/repositories';
-import { User } from '../../domain/entities';
-import { Email, Password } from 'src/domain/value-objects';
+import { IUserRepository } from '../../src/domain/ports';
+import { User } from '../../src/domain/models/entities';
+import { Email, Password } from '../../src/domain/value-objects';
 
 @Injectable()
 export class UserMockRepository implements IUserRepository {
