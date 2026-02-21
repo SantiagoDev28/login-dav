@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { IUserRepository } from '../../domain/repositories';
-import { User as DomainUser } from '../../domain/entities';
-import { Email, Password, UserStatus } from '../../domain/value-objects';
-import { UserEntity } from '../database/typeorm/user.entity';
+import { IUserRepository } from '../../../../../domain/ports';
+import { User as DomainUser } from '../../../../../domain/models/entities';
+import { Email, Password, UserStatus } from '../../../../../domain/value-objects';
+import { UserEntity } from '../../../../driven/database/typeorm/entities/user.entity';
 
 @Injectable()
 export class UserTypeOrmRepository implements IUserRepository {

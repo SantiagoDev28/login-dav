@@ -1,6 +1,6 @@
 import { Controller, Post, Body, HttpCode, HttpStatus } from '@nestjs/common';
-import { LoginUseCase } from '../../../application/use-cases/auth/login';
-import { RegisterUseCase } from '../../../application/use-cases/auth/register';
+import { LoginUseCase } from '../../../../../application/use-cases/auth/login';
+import { RegisterUseCase } from '../../../../../application/use-cases/auth/register';
 import {
   LoginRequestDto,
   LoginResponseDto,

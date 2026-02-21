@@ -6,7 +6,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { InvalidCredentialsException } from '../../../domain/exceptions';
+import { InvalidCredentialsException } from '../../../../../domain/exceptions';
 
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {

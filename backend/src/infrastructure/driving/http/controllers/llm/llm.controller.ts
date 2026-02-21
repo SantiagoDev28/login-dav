@@ -1,8 +1,8 @@
-import { GroqLLMProvider } from './../../repositories/groq-llm.provider';
+import { GroqLLMProvider } from '../../../../driven/external-services/groq';
 import { Controller, Post, Body, Inject } from '@nestjs/common';
-import type { LLMProvider } from '../../../domain/repositories/llm-provider';
+import type { LLMProvider } from '../../../../../domain/ports/outbound/services/llm-provider.port';
 import { LLMRequestDTO, LLMResponseDTO } from '../../dto/llm';
-import { DI_TOKENS } from '../../tokens/di.tokens';
+import { DI_TOKENS } from '../../../../config/di.tokens';
 
 /**
  * LLM Controller

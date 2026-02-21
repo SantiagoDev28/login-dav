@@ -1,9 +1,9 @@
-import { IUserRepository } from './domain/repositories/user.repository';
-import { IPasswordHasher } from './domain/repositories/password-hasher.repository';
+import { IUserRepository } from './domain/ports/outbound/repositories/user.repository.port';
+import { IPasswordHasher } from './domain/ports/outbound/services/password-hasher.port';
 import { LoginUseCase } from './application/use-cases/auth/login';
 import { InvalidCredentialsException } from './domain/exceptions';
-import { IAuthRepository } from './domain/repositories';
-import { User } from './domain/entities/user.entity';
+import { IAuthRepository } from './domain/ports';
+import { User } from './domain/models/entities/user.entity';
 import { Password, UserStatus, Email } from './domain/value-objects';
 
 describe('LoginUseCase', () => {

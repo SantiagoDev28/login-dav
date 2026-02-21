@@ -1,14 +1,14 @@
-import { Email } from './../../../../domain/value-objects/email.value';
+import { Email } from '../../../../domain/value-objects/email.vo';
 import { Injectable, Inject } from '@nestjs/common';
 import type {
   ITokenService,
   IUserRepository,
   IPasswordHasher,
-} from '../../../../domain/repositories';
+} from '../../../../domain/ports';
 import { InvalidCredentialsException } from '../../../../domain/exceptions';
-import { AuthResponse } from '../../../../domain/types';
+import { AuthResponse } from '../../../../domain/models/types';
 import { LoginDto } from '../../../dto/auth';
-import { DI_TOKENS } from '../../../../infrastructure/tokens/di.tokens';
+import { DI_TOKENS } from '../../../../infrastructure/config/di.tokens';
 
 @Injectable()
 export class LoginUseCase {

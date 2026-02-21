@@ -1,13 +1,13 @@
-import { Email } from '../../../../domain/value-objects/email.value';
-import { Password } from '../../../../domain/value-objects/password.value';
-import { UserStatus } from '../../../../domain/value-objects/user-status.value';
+import { Email } from '../../../../domain/value-objects/email.vo';
+import { Password } from '../../../../domain/value-objects/password.vo';
+import { UserStatus } from '../../../../domain/value-objects/user-status.vo';
 import { Injectable, Inject } from '@nestjs/common';
-import type { IUserRepository, IPasswordHasher } from '../../../../domain/repositories';
-import { User } from '../../../../domain/entities';
+import type { IUserRepository, IPasswordHasher } from '../../../../domain/ports';
+import { User } from '../../../../domain/models/entities';
 import { UserAlreadyExistsException } from '../../../../domain/exceptions';
-import { AuthResponse } from '../../../../domain/types';
+import { AuthResponse } from '../../../../domain/models/types';
 import { RegisterDto } from '../../../dto/auth';
-import { DI_TOKENS } from '../../../../infrastructure/tokens/di.tokens';
+import { DI_TOKENS } from '../../../../infrastructure/config/di.tokens';
 
 @Injectable()
 export class RegisterUseCase {
